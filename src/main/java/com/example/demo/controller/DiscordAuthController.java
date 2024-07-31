@@ -37,7 +37,7 @@ public class DiscordAuthController {
     public ResponseEntity<?> handleDiscordCallback(@RequestBody Map<String, String> payload) {
         String code = payload.get("code");
         if (code == null) {
-            return ResponseEntity.badRequest().body("No code provided");
+            return ResponseEntity.badRequest().body("No code provided"); // Return error if no code provided
         }
 
         RestTemplate restTemplate = new RestTemplate();
@@ -54,7 +54,7 @@ public class DiscordAuthController {
         ResponseEntity<String> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, requestEntity, String.class);
 
         if (response.getStatusCode() != HttpStatus.OK) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching access token");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching access token"); // Return error if token request fails
         }
 
         try {
@@ -68,7 +68,7 @@ public class DiscordAuthController {
             response = restTemplate.exchange(userInfoUrl, HttpMethod.GET, requestEntity, String.class);
 
             if (response.getStatusCode() != HttpStatus.OK) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching user info");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching user info"); // Return error if user info request fails
             }
 
             Map<String, Object> userInfo = mapper.readValue(response.getBody(), Map.class);
@@ -78,9 +78,9 @@ public class DiscordAuthController {
 
             User user = userService.findOrCreateDiscordUser(discordId, email, username);
             String token = userService.generateToken(user);
-            return ResponseEntity.ok().body(Map.of("token", token, "user", user));
+            return ResponseEntity.ok().body(Map.of("token", token, "user", user)); // Return token and user info
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing Discord login: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing Discord login: " + e.getMessage()); // Return error if processing fails
         }
     }
 }

@@ -22,7 +22,7 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
+
     private final Key jwtSecret = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public Optional<User> findByEmail(String email) {

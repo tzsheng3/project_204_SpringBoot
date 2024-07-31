@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -16,18 +15,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-        .csrf(csrf -> csrf.disable())
+        .csrf(csrf -> csrf.disable()) // Disable CSRF protection
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/**", "/oauth2/**", "/login/**", "/api/login/oauth2/code/discord").permitAll()
-            .anyRequest().authenticated()
+            .requestMatchers("/api/**", "/oauth2/**", "/login/**", "/api/login/oauth2/code/discord").permitAll() // Allow these endpoints without authentication
+            .anyRequest().authenticated() // Require authentication for all other requests
         )
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Use stateless sessions
 
-    return http.build();
-}
+        return http.build();
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // Define the password encoder bean
     }
 }

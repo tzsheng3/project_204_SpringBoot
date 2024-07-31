@@ -24,10 +24,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         if (userService.userExists(user.getEmail())) {
-            return ResponseEntity.badRequest().body(new ErrorResponse("Email already exists"));
+            return ResponseEntity.badRequest().body(new ErrorResponse("Email already exists")); // Return error if email already exists
         }
         User registeredUser = userService.register(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser); // Return created user
     }
 
     @PostMapping("/login")
@@ -35,10 +35,9 @@ public class UserController {
         try {
             User user = userService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
             String token = userService.generateToken(user);
-            return ResponseEntity.ok().body(Map.of("token", token, "user", user));
+            return ResponseEntity.ok().body(Map.of("token", token, "user", user)); // Return token and user info
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("Incorrect Email or Password"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("Incorrect Email or Password")); // Return error if authentication fails
         }
     }
-    
 }

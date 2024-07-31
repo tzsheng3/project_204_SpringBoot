@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -15,9 +14,9 @@ public class User {
 
     private String password;
 
-    private String name;  // Add this line
+    private String name; // Add this line
 
-    // getters and setters
+    // Getters and setters
 
     public Long getId() {
         return id;

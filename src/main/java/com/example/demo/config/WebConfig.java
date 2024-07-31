@@ -13,14 +13,14 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-            .allowedOrigins("http://localhost:3000", "https://discord.com")
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-            .allowedHeaders("*")
-            .allowCredentials(true);
+            .allowedOrigins("http://localhost:3000", "https://discord.com") // Allow these origins
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow these HTTP methods
+            .allowedHeaders("*") // Allow all headers
+            .allowCredentials(true); // Allow credentials
     }
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.defaultContentType(MediaType.APPLICATION_JSON);
+        configurer.defaultContentType(MediaType.APPLICATION_JSON); // Set default content type to JSON
     }
 }
